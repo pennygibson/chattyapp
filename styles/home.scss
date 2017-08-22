@@ -1,3 +1,109 @@
-h1 {
-  color: tomato;
-}
+ @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700");
+ @import url('https://fonts.googleapis.com/css?family=Pacifico|Passion+One:400');
+    @import url("https://cdnjs.cloudflare.com/ajax/libs/normalize/4.2.0/normalize.min.css");
+/* font-family: 'Passion One', cursive;
+   font-family: 'Pacifico', cursive; */
+
+    h1 {
+      color: tomato;
+    }
+
+    body {
+      background: white;
+      color: #280F36;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      margin: 70px 0;
+    }
+
+    .chatbar {
+      background: #FE9C7F;
+      background-image:
+      linear-gradient(
+      #FFC1A0, #FE9C7F
+    );
+      border-top: 2px solid #632B6C;
+      bottom: 0;
+      display: flex;
+      left: 0;
+      padding: 5px;
+      position: fixed;
+      right: 0;
+      height: 50px;
+    }
+
+    .chatbar-message,
+    .chatbar-username {
+      border: 1px solid #632B6C;
+      display: block;
+      height: 40px;
+      line-height: 40px;
+      margin: 5px;
+      padding: 0 9px;
+    }
+
+    .chatbar-message {
+      flex: 8;
+    }
+
+    .chatbar-username {
+      flex: 2;
+    }
+
+    .message {
+      display: flex;
+      padding: 5px;
+    }
+
+    .message.system {
+      font-style: italic;
+      padding: 5px 20px;
+    }
+
+    .message-content,
+    .message-username {
+      overflow: hidden;
+      margin: 5px;
+      padding: 0 10px;
+    }
+
+    .message-content {
+      flex: 8;
+    }
+
+    .message-username {
+      flex: 2;
+      font-weight: 700;
+    }
+
+    .navbar {
+      background-image:
+      linear-gradient(
+      to top right,
+      #FE9C7F, #C86B98, #632B6C
+      );
+      background-color: white;
+      border-bottom: 2px solid #632b6c;
+      height: 70px;
+      left: 0;
+      padding: 0 10px;
+      position: fixed;
+      right: 0;
+      top: 0;
+    }
+
+    .navbar-brand {
+      font-family: 'Pacifico', cursive;
+      letter-spacing: .1em;
+      text-shadow: 3px 3px #FE9C7F;
+      color: white;
+      display: block;
+      float: left;
+      font-weight: 700;
+      font-size: 3em;
+      height: 90px;
+      line-height: 90px;
+      padding: 0 10px;
+      text-decoration: none;
+    }
+
