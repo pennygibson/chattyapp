@@ -23,6 +23,8 @@ class App extends Component {
   componentDidMount(){
     this.socket = new WebSocket('ws://localhost:3001')
     console.log("connected to chatty_server")
+
+    this.socket.onmessage = this.addRecievedMessage;
   }
 
 
@@ -43,10 +45,17 @@ class App extends Component {
   handleNewMessage = (e) => {
     e.preventDefault()
       const newMessage = {id: 3, username: this.state.currentUser.name, content: e.target.text.value};
-      const messages = this.state.messages.concat(newMessage)
-      this.setState({messages: messages})
+      this.socket.send(JSON.stringify(newMessage))
       e.target.text.value = ''
   }
+
+  addRecievedMessage = (receivedMessage) => {
+      const newMessage = JSON.parse(receivedMessage.data)
+      const messages = this.state.messages.concat(newMessage)
+      this.setState({messages: messages})
+
+  }
+
   handleNewUser = (e) => {
     e.preventDefault()
     if(!e.target.value) {
