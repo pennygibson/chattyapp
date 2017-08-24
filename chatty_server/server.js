@@ -25,7 +25,7 @@ wss.on('connection', (client) => {
   //initialize a new client id
   const clientId = uuid()
   //send initial client data
-  //clientConnected(client, clientId);
+  // clientConnected(client, clientId);
   //handle messages
   client.on('message', broadcastBack)
   // Set up a callback for when a client closes the socket. This usually means they closed their browser.
@@ -39,13 +39,25 @@ wss.on('connection', (client) => {
 wss.broadcast = function(data){
   wss.clients.forEach(function(client){
     if (client.readyState === client.OPEN) {
-      client.send(data)
+      client.send(JSON.stringify(data))
     }
   })
 }
 
 function broadcastBack(message) {
-  console.log(`Received: ${message}`)
+  message = JSON.parse(message);
+  console.log(`Received: ${JSON.stringify(message)}`)
+  if (message.type === 'incomingMessage') {
+    message.id = uuid()
+  }
+
+
+  // const response = Object.assign({
+  //   id: uuid(),
+  //   type: "incomingMessage"
+  // }, message)
+  // console.log(`Response: ${JSON.stringify(response)}`)
+  // wss.broadcast(response);
   wss.broadcast(message);
 }
 //connection event
