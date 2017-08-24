@@ -1,23 +1,17 @@
 import React, {Component} from 'react';
 import ChatBar from './ChatBar.jsx'
 import MessageList from './MessageList.jsx'
+import Nav from './Nav.jsx'
 
 class App extends Component {
   constructor(props){
     super(props);
     //state is data in our application that can change
     this.state = {
+      numberOfUsers: 0,
       currentUser: {name: "Anonymous"}, // optional. if currentUser is not defined, it means the user is Anonymous
-      messages: [
-        {
-          username: "Bob",
-          content: "Has anyone seen my marbles?",
-        },
-        {
-          username: "Anonymous",
-          content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-        }
-      ]
+      messages: []
+
     }
   }
   componentDidMount(){
@@ -35,10 +29,17 @@ class App extends Component {
           break;
         case "incomingNotification":
           const newUser = parsedData
-          let message = `newUser.currentUser.name changes their name`;
+          let message = {
+            content: `${newUser.oldName} changed their user name to ${newUser.currentUser.name}`,
+            username: newUser.currentUser.name
+          };
           let newmessages = this.state.messages.concat(message);
+          console.log(newmessages)
           this.setState({messages: newmessages})
           break;
+        case "UserCountUpdate":
+          this.setState({numberOfUsers: parsedData.count});
+        break;
       }
     }
   }
@@ -59,12 +60,13 @@ class App extends Component {
 
   handleNewUser = (e) => {
     e.preventDefault()
-    console.log('I am here')
-
-    // if(!e.target.userName.value) {
-      // const newNotification = {currentUser: {name: "Anonymous"}}
-    // } else {
-    const newNotification = {currentUser: {name: e.target.userName.value}}
+    let oldUserName = this.state.currentUser.name;
+    const newNotification = {
+      currentUser: {
+        name: e.target.userName.value
+      },
+      oldName: oldUserName
+    }
     this.setState(newNotification);
     newNotification.type = 'incomingNotification'
     this.socket.send(JSON.stringify(newNotification))
@@ -73,6 +75,14 @@ class App extends Component {
   render() {
     return (
       <div>
+         <nav className="navbar">
+          <a href="/" className="navbar-brand">Chatty</a>
+          <div className="userCount">
+            <Nav
+              numberOfUsersProp={this.state.numberOfUsers}/>
+          </div>
+        </nav>
+
         <div id="messageList">
           <MessageList messages={this.state.messages}/>
         </div>
@@ -83,6 +93,8 @@ class App extends Component {
             handleNewUser={this.handleNewUser}
           />
         </div>
+
+
       </div>
     );
   }

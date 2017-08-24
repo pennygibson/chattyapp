@@ -5,7 +5,7 @@
    font-family: 'Pacifico', cursive; */
 
     h1 {
-      color: tomato;
+      color: #280F36;
     }
 
     body {
@@ -29,7 +29,7 @@
       padding: 5px;
       position: fixed;
       right: 0;
-      height: 50px;
+      height: 60px;
     }
 
     .chatbar-message,
@@ -40,13 +40,14 @@
       line-height: 40px;
       margin: 5px;
       padding: 0 9px;
+      width: 100%;
     }
 
-    .chatbar-message {
+    .userMessage {
       flex: 8;
     }
 
-    .chatbar-username {
+    .name {
       flex: 2;
     }
 
@@ -57,7 +58,7 @@
 
     .message.system {
       font-style: italic;
-      padding: 5px 20px;
+      padding: 30px 20px 5px 20px;
     }
 
     .message-content,
@@ -65,18 +66,9 @@
       overflow: hidden;
       margin: 5px;
       padding: 0 10px;
-
-      &.message-username-anon {
-        color: red;
-      }
-    }
-
-    .message-content {
-      flex: 8;
     }
 
     .message-username {
-      flex: 2;
       font-weight: 700;
     }
 
@@ -87,13 +79,15 @@
       #FE9C7F, #C86B98, #632B6C
       );
       background-color: white;
-      border-bottom: 2px solid #632b6c;
-      height: 70px;
+      border-bottom: 3px solid #632b6c;
+      height: 80px;
       left: 0;
       padding: 0 10px;
       position: fixed;
       right: 0;
       top: 0;
+      display: flex;
+      justify-content: space-between;
     }
 
     .navbar-brand {
@@ -106,8 +100,18 @@
       font-weight: 700;
       font-size: 3em;
       height: 90px;
-      line-height: 90px;
+      line-height: 116px;
       padding: 0 10px;
       text-decoration: none;
     }
+     .userCountText{
+       color: white;
+       font-family: 'Pacifico', cursive;
+       font-size: 1.3em;
+       padding-right: 20px;
+     }
+     form {
+       display: flex;
+     }
+
 
