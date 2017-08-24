@@ -24,10 +24,51 @@ class App extends Component {
     this.socket = new WebSocket('ws://localhost:3001')
     console.log("connected to chatty_server")
 
-    this.socket.onmessage = this.addRecievedMessage;
+    this.socket.onmessage = receivedMessage => {
+      const parsedData = JSON.parse(receivedMessage.data)
+      switch(parsedData.type) {
+        case "incomingMessage":
+          const newMessage = parsedData
+          console.log(newMessage)
+          let messages = this.state.messages.concat(newMessage)
+          this.setState({messages: messages})
+          break;
+        case "incomingNotification":
+          const newUser = parsedData
+          let message = `newUser.currentUser.name changes their name`;
+          let newmessages = this.state.messages.concat(message);
+          this.setState({messages: newmessages})
+          break;
+      }
+    }
   }
 
 
+  handleNewMessage = (e) => {
+    e.preventDefault()
+
+    const newMessage = {
+      type: 'incomingMessage',
+      username: this.state.currentUser.name || 'Anonymous',
+      content: e.target.text.value
+    };
+
+    this.socket.send(JSON.stringify(newMessage))
+    e.target.text.value = ''
+  }
+
+  handleNewUser = (e) => {
+    e.preventDefault()
+    console.log('I am here')
+
+    // if(!e.target.userName.value) {
+      // const newNotification = {currentUser: {name: "Anonymous"}}
+    // } else {
+    const newNotification = {currentUser: {name: e.target.userName.value}}
+    this.setState(newNotification);
+    newNotification.type = 'incomingNotification'
+    this.socket.send(JSON.stringify(newNotification))
+  };
 
   render() {
     return (
@@ -36,36 +77,15 @@ class App extends Component {
           <MessageList messages={this.state.messages}/>
         </div>
         <div id="chatBar">
-          <ChatBar currentUser={this.state.currentUser} handleNewMessage={this.handleNewMessage} handleNewUser={this.handleNewUser} />
+          <ChatBar
+            currentUser={this.state.currentUser}
+            handleNewMessage={this.handleNewMessage}
+            handleNewUser={this.handleNewUser}
+          />
         </div>
       </div>
     );
   }
-
-  handleNewMessage = (e) => {
-    e.preventDefault()
-      const newMessage = {id: 3, username: this.state.currentUser.name, content: e.target.text.value};
-      this.socket.send(JSON.stringify(newMessage))
-      e.target.text.value = ''
-  }
-
-  addRecievedMessage = (receivedMessage) => {
-      const newMessage = JSON.parse(receivedMessage.data)
-      const messages = this.state.messages.concat(newMessage)
-      this.setState({messages: messages})
-
-  }
-
-  handleNewUser = (e) => {
-    e.preventDefault()
-    if(!e.target.value) {
-      this.state.currentUser = 'Anonymous'
-    } else {
-      this.state.currentUser.name = e.target.value
-
-    }
-
-  };
 }
 export default App;
 
