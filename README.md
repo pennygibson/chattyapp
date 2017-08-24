@@ -1,7 +1,7 @@
 ## Chatty
 A small chat app that allows multiple users to communicate in real time and update user names.
 
-!["Desktop version"]()
+!["Desktop version"](https://github.com/pennygibson/chattyapp/blob/master/docs/chattyAppViews.jpg)
 
 ### Usage
 
